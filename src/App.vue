@@ -1,30 +1,39 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <tab-bar>
+      <tab-bar-item>
+        <template v-slot:item-icon><img src="@/assets/images/tabbar/icon01.png" alt=""></template>
+        <template v-slot:item-text><div>首页</div></template>
+      </tab-bar-item>
+      <tab-bar-item>
+        <template v-slot:item-icon><img src="@/assets/images/tabbar/icon02.png" alt=""></template>
+        <template v-slot:item-text><div>分类</div></template>
+      </tab-bar-item>
+      <tab-bar-item>
+        <template v-slot:item-icon><img src="@/assets/images/tabbar/icon03.png" alt=""></template>
+        <template v-slot:item-text><div>购物车</div></template>
+      </tab-bar-item>
+      <tab-bar-item>
+        <template v-slot:item-icon><img src="@/assets/images/tabbar/icon04.png" alt=""></template>
+        <template v-slot:item-text><div>我的</div></template>
+      </tab-bar-item>
+    </tab-bar>
+  </div>
+
 </template>
 
+<script>
+import TabBar from '@/components/common/tabBar/TabBar.vue'
+import TabBarItem from '@/components/common/tabBar/TabBarItem.vue'
+export default {
+		name: 'App',
+		components: {
+			TabBar, TabBarItem
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+@import '@/assets/css/normalize.css';
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
