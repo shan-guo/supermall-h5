@@ -6,7 +6,8 @@
 
 <script>
 export default {
-    name: "Category"
+  // eslint-disable-next-line vue/multi-word-component-names
+    name: "ShopCategory"
 }
 </script>
 
