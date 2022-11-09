@@ -17,5 +17,6 @@ export default {
   left: 0;
   right: 0;
   position: fixed;
+  background-color: white;
 }
 </style>
