@@ -8,41 +8,21 @@
     <home-swiper :banners="banners"></home-swiper>
     <recommend-view :recommends="recommends"></recommend-view>
     <feature-view></feature-view>
-    <tab-control class="tab-control" :titles="['流行', '新款', '精选']"></tab-control>
-    <ul>
-      <li>列表1</li>
-      <li>列表2</li>
-      <li>列表3</li>
-      <li>列表4</li>
-      <li>列表5</li>
-      <li>列表6</li>
-      <li>列表7</li>
-      <li>列表8</li>
-      <li>列表9</li>
-      <li>列表10</li>
-      <li>列表11</li>
-      <li>列表12</li>
-      <li>列表13</li>
-      <li>列表14</li>
-      <li>列表15</li>
-      <li>列表16</li>
-      <li>列表17</li>
-      <li>列表18</li>
-      <li>列表19</li>
-      <li>列表20</li>
-    </ul>
+    <tab-control class="tab-control" :titles="['流行', '新款', '精选']" @tabClick="tabClick"></tab-control>
+    <goods-list :goods="showGoods"></goods-list>
   </div>
 </template>
 
 <script>
 
-import {getHomeMultidata} from "@/network/home";
+import {getHomeMultidata, getHomeGoods} from "@/network/home";
 import HomeSwiper from "@/views/home/childComps/HomeSwiper";
 import RecommendView from "@/views/home/childComps/RecommendView";
 import FeatureView from "@/views/home/childComps/FeatureView";
 
 import NavBar from "@/components/common/navbar/NavBar";
 import TabControl from "@/components/common/tabControl/TabControl";
+import GoodsList from "@/components/common/goods/GoodsList";
 
 export default {
   name: "Home",
@@ -52,19 +32,57 @@ export default {
     FeatureView,
     NavBar,
     TabControl,
+    GoodsList,
   },
   data() {
     return {
       banners: [],
-      recommends: []
+      recommends: [],
+      goods: {
+        'pop': {'page': 0, 'list': []},
+        'new': {'page': 0, 'list': []},
+        'sell': {'page': 0, 'list': []},
+      },
+      currentType: 'pop'
+    }
+  },
+  computed:{
+    showGoods(){
+      return this.goods[this.currentType].list
     }
   },
   created() {
-    getHomeMultidata().then(res => {
-      console.log(res)
-      this.banners = res.data.banner.list;
-      this.recommends = res.data.recommend.list;
-    })
+    this.getHomeMultidata();
+    this.getHomeGoods('pop');
+    this.getHomeGoods('new');
+    this.getHomeGoods('sell');
+  },
+  methods: {
+    getHomeMultidata() {
+      getHomeMultidata().then(res => {
+        this.banners = res.data.banner.list;
+        this.recommends = res.data.recommend.list;
+      })
+    },
+    getHomeGoods(type) {
+      let page = this.goods[type].page + 1;
+      getHomeGoods(type, page).then(res => {
+        this.goods[type].list = res.data.list
+      })
+    },
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currentType = 'pop'
+          break
+        case 1:
+          this.currentType = 'new'
+          break
+        case 2:
+          this.currentType = 'sell'
+          break
+      }
+    }
   }
 }
 </script>
@@ -84,9 +102,11 @@ export default {
   top: 0;
   z-index: 9;
 }
-.tab-control{
+
+.tab-control {
   position: sticky;
   top: 44px;
   background-color: #ffffff;
+  z-index: 9;
 }
 </style>
