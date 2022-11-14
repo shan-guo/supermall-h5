@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component"/>
+      </keep-alive>
+    </router-view>
     <tab-bar>
       <tab-bar-item path="/home" activeColor="red">
         <template v-slot:item-icon><img src="@/assets/img/tabbar/home.svg" alt=""></template>

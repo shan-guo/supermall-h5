@@ -30,7 +30,7 @@ export default {
     this.scroll = new BScroll(this.$refs.wrapper, {
       click: true,
       probeType: this.probeType,
-      pullingUp: this.pullUpLoad
+      pullUpLoad: this.pullUpLoad
     })
 
     this.scroll.on("scroll", (position) => {
@@ -50,6 +50,9 @@ export default {
     },
     refresh() {
       this.scroll && this.scroll.refresh()
+    },
+    getScrollY() {
+      return this.scroll ? this.scroll.y : 0
     }
   }
 }
